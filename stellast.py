@@ -1,16 +1,3 @@
-<<<<<<< Updated upstream
-
-
-
-initial =\
-    [['-','X','X','X','X','O','-'],
-    [' ','X',' ','O',' ',' ',' '],
-    [' ','X',' ',' ',' ',' ',' '],
-    [' ','X','X','X','X','X','O'],
-    [' ','O',' ',' ',' ',' ',' '],
-    [' ','O','O','O',' ',' ',' '],
-    ['-',' ',' ',' ',' ',' ','-']]
-=======
 from copy import deepcopy 
 initial =[['-',' ',' ',' ',' ',' ','-'],
                 [' ',' ',' ',' ',' ',' ',' '],
@@ -19,9 +6,7 @@ initial =[['-',' ',' ',' ',' ',' ','-'],
                 [' ',' ',' ',' ',' ',' ',' '],
                 [' ',' ',' ',' ',' ',' ',' '],
                 ['-',' ',' ',' ',' ',' ','-']]
->>>>>>> Stashed changes
 k=5
-
 
 # find all initial points that could lead to a k in a row horizontally for either side
 def findHoriz(intial):
@@ -40,7 +25,6 @@ def findHoriz(intial):
           if colFlag== True:
             goodSquares.append((row,column))
   return goodSquares
-
 
 def findVert(intial):
   #numrows=len(initial)
@@ -96,7 +80,6 @@ def prepare(initial_state, k, what_side_I_play, opponent_nickname):
 
     # do I need to know where handicaps are..? maybe not..
 
-
     # find all k that could win
     # scan board horizontally and find ones that win
     # scan vertically
@@ -105,8 +88,6 @@ def prepare(initial_state, k, what_side_I_play, opponent_nickname):
     goodSquares.append (findVert(initial))
     goodSquares.append (findDiag1(initial))
     goodSquares.append (findDiag2(initial))
-
-
 
 def introduce():
     return ("Hello, I am the Eva, the super genious killing k-in-a-row machine /"
@@ -152,8 +133,7 @@ def minimax(current_state, depth_level, what_side):
         return best_move_so_far
 
 def staticEval(state):
-    # calculate how good this state is
-<<<<<<< Updated upstream
+  # calculate how good this state is
   result = 0
   for num in range(2,k+1):
     xinarow = find_num_side(state,'X',num)
@@ -164,7 +144,6 @@ def staticEval(state):
 
   # calculate
   return result
-
 
 # finds how many X's or O's
 def find_num_side (state,side, num):
@@ -199,35 +178,3 @@ def find_num_side (state,side, num):
           counter = counter + 1
 
   return counter
-
-
-#print (initial[6][2])
-#print(find_num_side(initial,'O',2))
-#goodSqr = findHoriz(initial)
-#goodSqr.append(findVert(initial))
-print(staticEval(initial))
-=======
-
-    # find how many 5'X's in a row and O's
-    fiveX =0
-    fiveO =0
-
-    # find how many 4'X's in a row
-    fourX =0
-    fourO =0
-    # 3
-    threeX=0
-    threeO=0
-    # 2
-    twoX =0
-    twoO=0
-    # 1
-    oneX =0
-    oneO=0
-
-    # calculate
-    return 100*fiveX + 80*fourX+60*threeX+30*twoX+10*oneX-100*fiveO-80*fourO-60*threeO-30*twoO-10*oneO
-
-
-print(findVert(initial))
->>>>>>> Stashed changes
