@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 
 
 
@@ -9,6 +10,16 @@ initial =\
     [' ','O',' ',' ',' ',' ',' '],
     [' ','O','O','O',' ',' ',' '],
     ['-',' ',' ',' ',' ',' ','-']]
+=======
+from copy import deepcopy 
+initial =[['-',' ',' ',' ',' ',' ','-'],
+                [' ',' ',' ',' ',' ',' ',' '],
+                [' ',' ',' ',' ',' ',' ',' '],
+                [' ',' ',' ',' ',' ',' ',' '],
+                [' ',' ',' ',' ',' ',' ',' '],
+                [' ',' ',' ',' ',' ',' ',' '],
+                ['-',' ',' ',' ',' ',' ','-']]
+>>>>>>> Stashed changes
 k=5
 
 
@@ -48,7 +59,16 @@ def findVert(intial):
             goodSquares.append((row,col))
   return goodSquares
 
-
+def findDiagonal(initial):
+  numrows=len(initial)
+  numcolumns=len(intial[0])
+  goodSquares=[]
+  for row in range(numrows):
+    for col in range(numcols):
+      current_square = initial[row][col]
+      if (current_square != 0):
+          pass
+         
 def prepare(initial_state, k, what_side_I_play, opponent_nickname):
   global initial
   global ktowin
@@ -96,18 +116,44 @@ def introduce():
 def nickname():
     return "Eva"
 
+def generate_possible_moves(state):
+    possible_moves = []
+    for row in range(len(state)):
+        for col in range(len(state[row])):
+            if state[row][col] == ' ':
+                possible_moves.append((row, col))
+    return possible_moves
+
 def makeMove(currentState,currentRemark,timeLimit=10000):
 
     # caclulate move
+    #best_move = minimax(initial_state)
 
 
     # calculate newState
+    newState = initial.deepcopy() 
+    newState[best_move[0]][best_move[1]] = what_side_I_play
 
     # returnsomeRemark
     return()
 
+def minimax(current_state, depth_level, what_side):
+    if depth_level == 0:
+        return staticEval(current_state)
+    else:
+        possible_moves = generate_possible_moves(current_state)
+        best_move_so_far = [(0, 0), float('-inf')]
+        for move in possible_moves:
+            new_state = current_state.deepcopy()
+            new_state[move[0]][move[1]] = what_side
+            score = minimax(new_state, depth_level - 1)
+            if score > best_move_so_far[1]:
+                best_move_so_far = [move, score]
+        return best_move_so_far
+
 def staticEval(state):
     # calculate how good this state is
+<<<<<<< Updated upstream
   result = 0
   for num in range(2,k+1):
     xinarow = find_num_side(state,'X',num)
@@ -160,3 +206,28 @@ def find_num_side (state,side, num):
 #goodSqr = findHoriz(initial)
 #goodSqr.append(findVert(initial))
 print(staticEval(initial))
+=======
+
+    # find how many 5'X's in a row and O's
+    fiveX =0
+    fiveO =0
+
+    # find how many 4'X's in a row
+    fourX =0
+    fourO =0
+    # 3
+    threeX=0
+    threeO=0
+    # 2
+    twoX =0
+    twoO=0
+    # 1
+    oneX =0
+    oneO=0
+
+    # calculate
+    return 100*fiveX + 80*fourX+60*threeX+30*twoX+10*oneX-100*fiveO-80*fourO-60*threeO-30*twoO-10*oneO
+
+
+print(findVert(initial))
+>>>>>>> Stashed changes
