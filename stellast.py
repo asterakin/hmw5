@@ -1,18 +1,21 @@
 
-initial =[['-',' ',' ',' ',' ',' ','-'],
-                [' ',' ',' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' ',' ',' '],
-                ['-',' ',' ',' ',' ',' ','-']]
+
+
+initial =\
+    [['-','X','X','X','X','O','-'],
+    [' ','X',' ','O',' ',' ',' '],
+    [' ','X',' ',' ',' ',' ',' '],
+    [' ','X','X','X','X','X','O'],
+    [' ','O',' ',' ',' ',' ',' '],
+    [' ','O','O','O',' ',' ',' '],
+    ['-',' ',' ',' ',' ',' ','-']]
 k=5
 
 
 # find all initial points that could lead to a k in a row horizontally for either side
 def findHoriz(intial):
-  numrows=len(initial)
-  numcolumns=len(intial[0])
+  #numrows=len(initial)
+  #numcolumns=len(intial[0])
   goodSquares=[]
   if numcolumns >=k:
     for row in range(numrows):
@@ -21,7 +24,7 @@ def findHoriz(intial):
         endCol = column+ k-1
         if (initial[row][column]!='-') and endCol < numcolumns: # column can be used as starting column
           for adjcol in range (column,endCol):
-            if initial[row][adjcol] != '-':
+            if initial[row][adjcol] == '-':
               colflag = False
           if colFlag== True:
             goodSquares.append((row,column))
@@ -29,8 +32,8 @@ def findHoriz(intial):
 
 
 def findVert(intial):
-  numrows=len(initial)
-  numcolumns=len(intial[0])
+  #numrows=len(initial)
+  #numcolumns=len(intial[0])
   goodSquares=[]
   if numrows >=k:
     for col in range(numcolumns):
@@ -38,10 +41,10 @@ def findVert(intial):
         rowFlag=True
         endRow = row+ k-1
         if (initial[row][col]!='-') and endRow < numrows: # column can be used as starting column
-          for adjrow in range (row,endRow):
-            if initial[adjrow][col] != '-':
+          for adjrow in range (row+1,endRow+1):
+            if initial[adjrow][col] == '-':
               rowFlag = False
-          if rowFlag== True:
+          if rowFlag == True:
             goodSquares.append((row,col))
   return goodSquares
 
@@ -52,6 +55,8 @@ def prepare(initial_state, k, what_side_I_play, opponent_nickname):
   global side
   global opponent_nick
   global forbidden
+  global numrows
+  global numcolumns
 
   forbidden=[]
   initial=initial_state[0]
@@ -103,26 +108,55 @@ def makeMove(currentState,currentRemark,timeLimit=10000):
 
 def staticEval(state):
     # calculate how good this state is
+  result = 0
+  for num in range(2,k+1):
+    xinarow = find_num_side(state,'X',num)
+    oinarow = find_num_side(state,'O',num)
+    print('X ' + str(num) + ' in a row: ' +str(xinarow))
+    print('O '  + str(num) + ' in a row: ' +str(oinarow))
+    result += num * 10 * xinarow - num* 10 * oinarow
 
-    # find how many 5'X's in a row and O's
-    fiveX =0
-    fiveO =0
-
-    # find how many 4'X's in a row
-    fourX =0
-    fourO =0
-    # 3
-    threeX=0
-    threeO=0
-    # 2
-    twoX =0
-    twoO=0
-    # 1
-    oneX =0
-    oneO=0
-
-    # calculate
-    return 100*fiveX + 80*fourX+60*threeX+30*twoX+10*oneX-100*fiveO-80*fourO-60*threeO-30*twoO-10*oneO
+  # calculate
+  return result
 
 
-print(findVert(initial))
+# finds how many X's or O's
+def find_num_side (state,side, num):
+  counter=0
+  numrows=len(state)
+  numcolumns=len(state[0])
+
+  # Horizontal
+  for row in range(numrows):
+    for col in range(numcolumns-num+1):
+      if state[row][col]== side:
+        flag = True
+        for adjcol in range(col+1,col+num):
+          if state[row][adjcol] !=side :
+            flag=False
+        if flag and (col+num+1 > numcolumns or state[row][col+num]!=side) and (col-1<0 or state[row][col-1]!=side):
+          # print ('passed row ' + str(row) +  ' and col ' + str(col) + ' at end ' + str(col+num))
+          counter = counter + 1
+
+  # Vertical
+  for col in range(numcolumns):
+    for row in range(numrows-num+1):
+      if state[row][col] == side:
+        flag = True
+        #print (str(flag)+' trying col ' + str(col) +  ' and row ' + str(row) + ' at end ' + str(row+num))
+        for adjrow in range(row+1,row+num):
+          #print(str(col) + ' ' +str(adjrow) + ' ' + str(state[adjrow][col]))
+          if state[adjrow][col] != side :
+            flag=False
+        if flag and (row+num+1 > numrows or state[row+num][col]!=side) and (row-1<0 or state[row-1][col]!=side):
+          #print ('passed row ' + str(row) +  ' and col ' + str(col) + ' at end ' + str(col+num))
+          counter = counter + 1
+
+  return counter
+
+
+#print (initial[6][2])
+#print(find_num_side(initial,'O',2))
+#goodSqr = findHoriz(initial)
+#goodSqr.append(findVert(initial))
+print(staticEval(initial))
