@@ -61,7 +61,7 @@ def prepare(initial_state, k, what_side_I_play, opponent_nickname):
 def introduce():
     return ("Hello, I am the Eva, the super genious killing k-in-a-row machine /"
             "and I will show you how stupid you are in this game! My creator is /"
-            "Stella Stylianidou (stellast@uw.edu) and Phil Synder()")
+            "Stella Stylianidou (stellast@uw.edu) and Phil Synder(phil0@uw.edu)")
 
 def nickname():
     return "Eva"
