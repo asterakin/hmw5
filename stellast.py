@@ -1,38 +1,63 @@
-__author__ = 'Stella'
+
+initial =[['-',' ',' ',' ',' ',' ','-'],
+                [' ',' ',' ',' ',' ',' ',' '],
+                [' ',' ',' ',' ',' ',' ',' '],
+                [' ',' ',' ',' ',' ',' ',' '],
+                [' ',' ',' ',' ',' ',' ',' '],
+                [' ',' ',' ',' ',' ',' ',' '],
+                ['-',' ',' ',' ',' ',' ','-']]
+k=5
 
 
-def findHor(intial):
-  side='X'
+# find all initial points that could lead to a k in a row horizontally for either side
+def findHoriz(intial):
   numrows=len(initial)
   numcolumns=len(intial[0])
   goodSquares=[]
   if numcolumns >=k:
-    for row in range(numrows-1):
-      for column in range(numcolumns-1):
+    for row in range(numrows):
+      for column in range(numcolumns):
         colFlag=True
-        endCol = initial_state[row][column]+ k
-        if (initial_state[row][column] =side or initial_state[row][column] =' ') and endCol < numcolumns-1: # column can be used as starting column
-          for adjcol in range (column,numcolumns-1):
-            if initial_state[row][adjcol] != ' ' or initial_state[row][adjcol] != side:
+        endCol = column+ k-1
+        if (initial[row][column]!='-') and endCol < numcolumns: # column can be used as starting column
+          for adjcol in range (column,endCol):
+            if initial[row][adjcol] != '-':
               colflag = False
-          if colFlag=True:
-            for x in range(column,endCol):
-              goodSquares.append ([row][x])
+          if colFlag== True:
+            goodSquares.append((row,column))
+  return goodSquares
+
+
+def findVert(intial):
+  numrows=len(initial)
+  numcolumns=len(intial[0])
+  goodSquares=[]
+  if numrows >=k:
+    for col in range(numcolumns):
+      for row in range(numrows):
+        rowFlag=True
+        endRow = row+ k-1
+        if (initial[row][col]!='-') and endRow < numrows: # column can be used as starting column
+          for adjrow in range (row,endRow):
+            if initial[adjrow][col] != '-':
+              rowFlag = False
+          if rowFlag== True:
+            goodSquares.append((row,col))
   return goodSquares
 
 
 def prepare(initial_state, k, what_side_I_play, opponent_nickname):
   global initial
-  global k
+  global ktowin
   global side
-  global opponent_nickname
+  global opponent_nick
   global forbidden
 
   forbidden=[]
   initial=initial_state[0]
-  k=k
+  ktowin=k
   side =  what_side_I_play
-  opponent_nickname = opponent_nickname
+  opponent_nick = opponent_nickname
 
   # get size of board
   numrows=len(initial)
@@ -51,7 +76,7 @@ def prepare(initial_state, k, what_side_I_play, opponent_nickname):
     # scan board horizontally and find ones that win
     # scan vertically
     # scan diagonally
-    goodSquares = findHor(intial)
+    goodSquares = findHoriz(intial)
     goodSquares.append (findVert(initial))
     goodSquares.append (findDiag1(initial))
     goodSquares.append (findDiag2(initial))
@@ -66,7 +91,7 @@ def introduce():
 def nickname():
     return "Eva"
 
-def makeMove(currentState,currentRemark,timeLimit=10000)
+def makeMove(currentState,currentRemark,timeLimit=10000):
 
     # caclulate move
 
@@ -74,6 +99,7 @@ def makeMove(currentState,currentRemark,timeLimit=10000)
     # calculate newState
 
     # returnsomeRemark
+    return()
 
 def staticEval(state):
     # calculate how good this state is
@@ -99,3 +125,4 @@ def staticEval(state):
     return 100*fiveX + 80*fourX+60*threeX+30*twoX+10*oneX-100*fiveO-80*fourO-60*threeO-30*twoO-10*oneO
 
 
+print(findVert(initial))
