@@ -113,14 +113,51 @@ def makeMove(currentState,currentRemark,timeLimit=10000):
 
     # calculate newState
     newState = initial.deepcopy() 
-    newState[best_move[0]][best_move[1]] = what_side_I_play
+    newState[best_move[0]][best_move[1]] = side
 
     # returnsomeRemark
+
+
+    # remarks for a good static eval
+    if stateval_for_side (newState) > 50:
+      currentRemark = choice (["Haha! I bet you didn't see that coming.",
+                                "Oh you poor human you are going to lose so badly.",
+                                "Such a bad choice human",
+                                "I am so looking forward to your end",
+                                side + " for the win!",
+                                "Such an awesome move on my behalf",
+                                "I may be rocking this game.",
+                                "You have no idea what's coming human"
+                                ])
+    elif stateval_for_side (newState) < 0: # remarks for bad static eval
+      currentRemark = choice (["Let me think about this.",
+                                "Hmm.. I am smarter than you.. I don't understand.",
+                                "Okay, I guess that's a valid move.",
+                                "I can still kill you. I am smart.",
+                                "I can't believe you just did that.",
+                                "This doesn't look great."
+                                "I will get back to you with a manuever you won't see."
+                                ])
+    else: # remarks for other states
+      currentRemark = choice (["So what are you doing next?",
+                                "Wasn't my move the best move ever?",
+                                "I am so good at this game.",
+                                "Such an awesome move on my behalf",
+                                "Your turn silly human.",
+                                "This is so easy.",
+                                "Oh how cute. Aren't you bad at this game?"
+                                ])
+
+
+
+
+
+
     return()
 
 def minimax(current_state, depth_level, what_side):
     if depth_level == 0:
-        return staticEval(current_state)
+        return stateval_for_side (current_state)
     else:
         possible_moves = generate_possible_moves(current_state)
         best_move_so_far = [(0, 0), float('-inf')]
@@ -132,8 +169,15 @@ def minimax(current_state, depth_level, what_side):
                 best_move_so_far = [move, score]
         return best_move_so_far
 
+def stateval_for_side (state):
+    if side == 'X':
+        return staticEval(state)
+    else:
+        return -staticEval(state)
+
+
 def staticEval(state):
-  # calculate how good this state is
+  # calculate how good this state is, high value is good for X, low value is good for O
   result = 0
   for num in range(2,k+1):
     xinarow = find_num_side(state,'X',num)
