@@ -316,5 +316,5 @@ def find_num_side (state,side, num):
         counter += 1
   return counter
 
-#prepare(initial, 3, 'X', 'Jacob')
-#makeMove(initial, 'hi')
+#prepare(test[0], 3, 'X', 'Jacob')
+#makeMove(test[0], 'hi')
