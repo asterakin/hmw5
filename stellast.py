@@ -10,11 +10,11 @@ initial = [[['-',' ',' ',' ',' ',' ','-'],
                 [' ',' ',' ',' ',' ',' ',' '], 
                 ['-',' ',' ',' ',' ',' ','-']], "X"]
 
-test = [[['-',' ',' ',' ',' ',' ','-'],
-                [' ',' ',' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' ',' ',' '],
+test =        [[['-',' ',' ',' ',' ',' ','-'],
+                [' ','O',' ',' ',' ',' ',' '],
+                [' ',' ','O',' ',' ',' ',' '],
+                [' ',' ',' ','O',' ',' ',' '],
+                [' ',' ',' ',' ','O',' ',' '],
                 [' ',' ',' ',' ',' ',' ',' '],
                 ['-',' ',' ',' ',' ',' ','-']], "X"]
 k=5
@@ -74,7 +74,7 @@ def prepare(initial_state, k, what_side_I_play, opponent_nickname):
   global numcolumns
 
   forbidden=[]
-  initial=initial_state[0]
+  initial=initial_state
   ktowin=k
   side =  what_side_I_play
   opponent_nick = opponent_nickname
@@ -82,6 +82,8 @@ def prepare(initial_state, k, what_side_I_play, opponent_nickname):
   # get size of board
   numrows=len(initial)
   numcolumns=len(initial[0])
+  print(numrows)
+  print(numcolumns)
 
     # get location of forbidden squares
   #for row in range(numrows-1):
@@ -120,7 +122,7 @@ def generate_possible_moves(state):
 # need to do timeLimit
 def makeMove(currentState,currentRemark,timeLimit=10000):
     # caclulate move
-    best_move = minimax(currentState, 1, side)
+    best_move = minimax(currentState, 2, side)
     print(best_move)
 
     # calculate newState
@@ -158,7 +160,7 @@ def makeMove(currentState,currentRemark,timeLimit=10000):
                                 "This is so easy.",
                                 "Oh how cute. Aren't you bad at this game?"
                                 ])
-    return()
+    return([[best_move[0], newState], currentRemark])
 
 def minimax(current_state, depth_level, what_side):
     if depth_level == 0:
@@ -180,7 +182,7 @@ def minimax(current_state, depth_level, what_side):
                 except:
                     print(best_move_so_far)
             else:
-                if score < best_move_so_far:
+                if score[1] < best_move_so_far[1]:
                     best_move_so_far = [move, score[1]]
         return best_move_so_far
 
@@ -200,7 +202,12 @@ def staticEval(state):
     oinarow = find_num_side(state,'O',num)
     #print('X ' + str(num) + ' in a row: ' +str(xinarow))
     #print('O '  + str(num) + ' in a row: ' +str(oinarow))
-    result += num * 10 * xinarow - num* 10 * oinarow
+    if num == k and xinarow > 0:
+        return float('inf')
+    elif num == k and oinarow > 0:
+        return float('-inf')
+    else:
+        result += pow(2, num) * xinarow - pow(2, num) * oinarow
 
   # calculate
   return result
@@ -209,7 +216,7 @@ def staticEval(state):
 def find_num_side (state,side, num):
   counter=0
   numrows=len(state)
-  numcolumns=len(state[0])
+  numcolumns=len(state)
 
   # Horizontal
   for row in range(numrows):
@@ -272,5 +279,5 @@ def find_num_side (state,side, num):
         counter += 1
   return counter
 
-prepare(initial, 3, 'X', 'Jacob')
-makeMove(initial, 'hi')
+prepare(test[0], 5, 'X', 'Jacob')
+makeMove(test[0], 'hi')
