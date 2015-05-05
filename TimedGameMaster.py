@@ -4,12 +4,13 @@
 S. Tanimoto, April 29, 2015.
 '''
 
-# Specify details of a match here: 
-import Hobgoblin as player1
-import Player as player2
+# Specify details of a match here:
+from __future__ import print_function
+import stellast as player1
+import stellast as player2
 #from FiveInARowGameType import K, NAME, INITIAL_STATE
 from TicTacToeGameType import K, NAME, INITIAL_STATE
-TIME_PER_MOVE = 0.5
+TIME_PER_MOVE = 1
 
 USE_HTML = True
 
@@ -24,6 +25,7 @@ M = len(INITIAL_STATE[0][0]) # width of board
 FINISHED = False
 def runGame():
     currentState = INITIAL_STATE
+    print(INITIAL_STATE)
     print('The Gamemaster says, "Players, introduce yourselves."')
     print('     (Playing X:) '+player1.introduce())
     print('     (Playing O:) '+player2.introduce())
@@ -42,7 +44,7 @@ def runGame():
         if USE_HTML: gameToHTML.endHTML()
         return
     try:
-        p2comment = player2.prepare(INITIAL_STATE, K, 'X', player1.nickname())
+        p2comment = player2.prepare(INITIAL_STATE, K, 'O', player1.nickname())
     except:
         report = 'Player 2 ('+player2.nickname()+' failed to prepare, and loses by default.'
         print(report)
@@ -75,11 +77,14 @@ def runGame():
             playerResult = timeout(player1.makeMove,args=(currentState, currentRemark, TIME_PER_MOVE), kwargs={}, timeout_duration=TIME_PER_MOVE, default=(None,"I give up!"));
             name = player1.nickname()
             XsTurn = False
+            #print(playerResult)
         else:
             playerResult = timeout(player2.makeMove,args=(currentState, currentRemark, TIME_PER_MOVE), kwargs={}, timeout_duration=TIME_PER_MOVE, default=(None,"I give up!"));
             name = player2.nickname()
             XsTurn = True
+            #print(playerResult)
         moveAndState, currentRemark = playerResult
+
         if moveAndState==None:
             FINISHED = True; continue
         move, currentState = moveAndState
@@ -118,7 +123,7 @@ def printState(s):
     for row in board:
         print("|",end="")
         for item in row:
-            print(" "+item+" ", end="") 
+            print(" "+item+" ",end="")
         print("|")
     print(horizontalBorder)
     if not FINISHED:
@@ -152,7 +157,7 @@ def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
     ended_at = time.time()
     #print("makeMove ended at: " + str(ended_at))
     diff = ended_at - started_at
-    print("Time used in makeMove: %0.4f seconds" % diff)
+    #print("Time used in makeMove: %0.4f seconds" % diff)
     if pt.isAlive():
         print("Took too long.")
         print("We are now terminating the game.")
@@ -161,7 +166,7 @@ def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
         if USE_HTML: gameToHTML.endHTML()
         exit()
     else:
-        print("Within the time limit -- nice!")
+       # print("Within the time limit -- nice!")
         return pt.result
 
     
