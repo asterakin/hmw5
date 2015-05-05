@@ -217,7 +217,7 @@ def minimax(current_state, depth_level, what_side):
                 if score[1] > best_move_so_far[1]:
                     best_move_so_far = [move, score[1]]
             else:
-                if score < best_move_so_far:
+                if score[1] < best_move_so_far[1]:
                     best_move_so_far = [move, score[1]]
         return best_move_so_far
 
