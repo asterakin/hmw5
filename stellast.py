@@ -1,4 +1,6 @@
 from copy import deepcopy 
+from re import sub
+from random import choice
 
 initial = [[['-',' ',' ',' ',' ',' ','-'], 
                 [' ',' ',' ',' ',' ',' ',' '],  
@@ -114,6 +116,8 @@ def generate_possible_moves(state):
                 possible_moves.append((row, col))
     return possible_moves
 
+
+# need to do timeLimit
 def makeMove(currentState,currentRemark,timeLimit=10000):
     # caclulate move
     best_move = minimax(currentState, 1, side)
@@ -136,7 +140,7 @@ def makeMove(currentState,currentRemark,timeLimit=10000):
                                 "I may be rocking this game.",
                                 "You have no idea what's coming human"
                                 ])
-    elif stateval_for_side (newState) < 0: # remarks for bad static eval
+    elif stateval_for_side (newState) < -20: # remarks for bad static eval
       currentRemark = choice (["Let me think about this.",
                                 "Hmm.. I am smarter than you.. I don't understand.",
                                 "Okay, I guess that's a valid move.",
@@ -154,26 +158,30 @@ def makeMove(currentState,currentRemark,timeLimit=10000):
                                 "This is so easy.",
                                 "Oh how cute. Aren't you bad at this game?"
                                 ])
-
-
-
-
-
-
     return()
 
 def minimax(current_state, depth_level, what_side):
     if depth_level == 0:
-        return stateval_for_side (current_state)
+        return [None, staticEval(current_state)]
     else:
         possible_moves = generate_possible_moves(current_state)
-        best_move_so_far = [possible_moves[0], float('-inf')]
+        if what_side == 'X':
+            best_move_so_far = [possible_moves[0], float('-inf')]
+        else:
+            best_move_so_far = [possible_moves[0], float('inf')]
         for move in possible_moves:
             new_state = deepcopy(current_state)
             new_state[move[0]][move[1]] = what_side
-            score = minimax(new_state, depth_level - 1, what_side)
-            if score > best_move_so_far[1]:
-                best_move_so_far = [move, score]
+            score = minimax(new_state, depth_level - 1, sub(what_side, '', 'XO'))
+            if what_side == 'X':
+                try:
+                    if score[1] > best_move_so_far[1]:
+                        best_move_so_far = [move, score[1]]
+                except:
+                    print(best_move_so_far)
+            else:
+                if score < best_move_so_far:
+                    best_move_so_far = [move, score[1]]
         return best_move_so_far
 
 def stateval_for_side (state):
@@ -184,7 +192,8 @@ def stateval_for_side (state):
 
 
 def staticEval(state):
-  # calculate how good this state is, high value is good for X, low value is good for O
+  # calculate how good this state is
+  # high value is good for X, low value is good for O
   result = 0
   for num in range(2,k+1):
     xinarow = find_num_side(state,'X',num)
