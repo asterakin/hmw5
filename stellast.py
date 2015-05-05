@@ -132,7 +132,7 @@ def makeMove(currentState,currentRemark,timeLimit=10000):
     #    elapsed = time.time() - start
 
     currentState=currentState[0]
-    best_move = minimax(currentState, 2, side)
+    best_move = minimax(currentState, 3, side)
     print(best_move)
 
     # calculate newState
@@ -141,7 +141,7 @@ def makeMove(currentState,currentRemark,timeLimit=10000):
 
 
     # remarks for a good static eval
-    if stateval_for_side (newState) > 50:
+    if stateval_for_side (newState) > 1000:
       newRemark = choice (["Haha! I bet you didn't see that coming.",
                                 "Oh you poor human you are going to lose so badly.",
                                 "Such a bad choice human",
@@ -151,7 +151,7 @@ def makeMove(currentState,currentRemark,timeLimit=10000):
                                 "I may be rocking this game.",
                                 "You have no idea what's coming human"
                                 ])
-    elif stateval_for_side (newState) < -20: # remarks for bad static eval
+    elif stateval_for_side (newState) < 0: # remarks for bad static eval
       newRemark = choice (["Let me think about this.",
                                 "Hmm.. I am smarter than you.. I don't understand.",
                                 "Okay, I guess that's a valid move.",
@@ -173,30 +173,6 @@ def makeMove(currentState,currentRemark,timeLimit=10000):
     #print ('I am in side ' + side)
 
     return([[best_move[0], [newState,side]], newRemark])
-
-
-
-def minimax2(current_state, depth_level, what_side):
-    if depth_level == 0:
-        return [None, staticEval(current_state)]
-    else:
-        possible_moves = generate_possible_moves(current_state)
-        if what_side == 'X':
-            best_move_so_far = [possible_moves[0], float('-inf')]
-        else:
-            best_move_so_far = [possible_moves[0], float('inf')]
-        for move in possible_moves:
-            new_state = deepcopy(current_state)
-            new_state[move[0]][move[1]] = what_side
-            score = minimax(new_state, depth_level - 1, sub(what_side, '', 'XO'))
-            if what_side == 'X':
-                if score[1] > best_move_so_far[1]:
-                    best_move_so_far = [move, score[1]]
-                    print(best_move_so_far)
-            else:
-                if score[1] < best_move_so_far[1]:
-                    best_move_so_far = [move, score[1]]
-        return best_move_so_far
 
 
 
