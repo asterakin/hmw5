@@ -124,7 +124,7 @@ def generate_possible_moves(state):
 # need to do timeLimit
 # maybe chose randomly if a lot have the same score? maybe dont calculate anything at the beginning?
 def makeMove(currentState,currentRemark,timeLimit=10000):
-    # caclulate move
+    # caclulate move #
 
     #start = time.time()
     #elapsed = 0
