@@ -125,7 +125,6 @@ def makeMove(currentState,currentRemark,timeLimit=10000):
 
     # returnsomeRemark
 
-
     # remarks for a good static eval
     if stateval_for_side (newState) > 50:
       currentRemark = choice (["Haha! I bet you didn't see that coming.",
