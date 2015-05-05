@@ -114,6 +114,8 @@ def generate_possible_moves(state):
                 possible_moves.append((row, col))
     return possible_moves
 
+
+# need to do timeLimit
 def makeMove(currentState,currentRemark,timeLimit=10000):
     # caclulate move
     best_move = minimax(currentState, 1, side)
@@ -136,7 +138,7 @@ def makeMove(currentState,currentRemark,timeLimit=10000):
                                 "I may be rocking this game.",
                                 "You have no idea what's coming human"
                                 ])
-    elif stateval_for_side (newState) < 0: # remarks for bad static eval
+    elif stateval_for_side (newState) < -20: # remarks for bad static eval
       currentRemark = choice (["Let me think about this.",
                                 "Hmm.. I am smarter than you.. I don't understand.",
                                 "Okay, I guess that's a valid move.",
@@ -154,12 +156,6 @@ def makeMove(currentState,currentRemark,timeLimit=10000):
                                 "This is so easy.",
                                 "Oh how cute. Aren't you bad at this game?"
                                 ])
-
-
-
-
-
-
     return()
 
 def minimax(current_state, depth_level, what_side):
@@ -184,7 +180,8 @@ def stateval_for_side (state):
 
 
 def staticEval(state):
-  # calculate how good this state is, high value is good for X, low value is good for O
+  # calculate how good this state is
+  # high value is good for X, low value is good for O
   result = 0
   for num in range(2,k+1):
     xinarow = find_num_side(state,'X',num)
