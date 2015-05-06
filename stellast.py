@@ -140,11 +140,6 @@ def minimax(current_state, depth_level, what_side):
         return [None, float('-inf')]
     if possible_moves == [] or depth_level == 0:
         return [None, staticEval(current_state)]
-    if timeLimit - elapsed <= 0.5: 
-        if what_side == 'X':
-            return [None, float('-inf')]
-        if what_side == 'O':
-            return [None, float('inf')]
     else:
         if what_side == 'X':
             best_move_so_far = [possible_moves[0], float('-inf')]
@@ -153,13 +148,16 @@ def minimax(current_state, depth_level, what_side):
         for move in possible_moves:
             new_state = deepcopy(current_state)
             new_state[move[0]][move[1]] = what_side
-            score = minimax(new_state, depth_level - 1, sub(what_side, '', 'XO'))
-            if what_side == 'X':
-                if score[1] >= best_move_so_far[1]:
-                    best_move_so_far = [move, score[1]]
+            if  timeLimit - elapsed <= 0.15:
+                return best_move_so_far
             else:
-                if score[1] <= best_move_so_far[1]:
-                    best_move_so_far = [move, score[1]]
+                score = minimax(new_state, depth_level - 1, sub(what_side, '', 'XO'))
+                if what_side == 'X':
+                    if score[1] >= best_move_so_far[1]:
+                        best_move_so_far = [move, score[1]]
+                else:
+                    if score[1] <= best_move_so_far[1]:
+                        best_move_so_far = [move, score[1]]
         return best_move_so_far
 
 
