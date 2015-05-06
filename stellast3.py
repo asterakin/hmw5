@@ -124,7 +124,7 @@ def generate_possible_moves(state):
 # need to do timeLimit
 # maybe chose randomly if a lot have the same score? maybe dont calculate anything at the beginning?
 def makeMove(currentState,currentRemark,timeLimit=10000):
-    # caclulate move
+    # caclulate move #
 
     #start = time.time()
     #elapsed = 0
@@ -132,7 +132,7 @@ def makeMove(currentState,currentRemark,timeLimit=10000):
     #    elapsed = time.time() - start
 
     currentState=currentState[0]
-    best_move = minimax(currentState, 3, side)
+    best_move = minimax(currentState, 2, side)
     print(best_move)
 
     # calculate newState
@@ -172,15 +172,28 @@ def makeMove(currentState,currentRemark,timeLimit=10000):
 
     #print ('I am in side ' + side)
 
-    return([[best_move[0], [newState,side]], newRemark])
+
+    if side=='X':
+        otherside='O'
+    else:
+        otherside='X'
 
 
+    return([[best_move[0], [newState,otherside]], newRemark])
 
 def minimax(current_state, depth_level, what_side):
-    if depth_level == 0:
+    possible_moves = generate_possible_moves(current_state)
+    print(possible_moves)
+    if find_num_side(current_state,'X',k)>0:
+        print('x made it')
+        return [None, float('inf')]
+    if find_num_side(current_state,'O',k)>0:
+        print('o made it')
+        return [None, float('-inf')]
+    if possible_moves == [] or depth_level == 0:
+        print(current_state,staticEval(current_state))
         return [None, staticEval(current_state)]
     else:
-        possible_moves = generate_possible_moves(current_state)
         if what_side == 'X':
             best_move_so_far = [possible_moves[0], float('-inf')]
         else:
@@ -192,6 +205,7 @@ def minimax(current_state, depth_level, what_side):
             if what_side == 'X':
                 if score[1] > best_move_so_far[1]:
                     best_move_so_far = [move, score[1]]
+                    print(best_move_so_far)
             else:
                 if score[1] < best_move_so_far[1]:
                     best_move_so_far = [move, score[1]]
@@ -220,9 +234,7 @@ def staticEval(state):
         return float('-inf')
     else:
         result += pow(2, num) * xinarow - pow(2, num) * oinarow
-        #result += pow(2.71,num * xinarow) - pow(2.71,num*oinarow)
 
-  # calculate
   return result
 
 # finds how many X's or O's
@@ -292,5 +304,5 @@ def find_num_side (state,side, num):
         counter += 1
   return counter
 
-#prepare(initial, 3, 'X', 'Jacob')
-#makeMove(initial, 'hi')
+#prepare(test[0], 3, 'X', 'Jacob')
+#makeMove(test[0], 'hi')
