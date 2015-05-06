@@ -6,7 +6,7 @@ S. Tanimoto, April 29, 2015.
 
 # Specify details of a match here:
 from __future__ import print_function
-import stellast as player1
+import stellastphil0KinArow as player1
 import stellast3 as player2
 from FiveInARowGameType import K, NAME, INITIAL_STATE
 #from TicTacToeGameType import K, NAME, INITIAL_STATE

@@ -1,0 +1,8 @@
+ExtraCredit.txt
+stellast@uw.edu
+Stella Stylianidou
+phil0@uw.edu
+Phil Synder
+
+Our agent shows awareness of the game state and game dynamics in her responses by evaluating the state of the new state it chose. If the score it chose is low it gives responses that are less cynical, showing that the game is not going very well for our agent. If the state it chose has a high score for our agent then our agent will give answers that are very cynical, as it is likely to win the game. If our state is in between those values the responses are somewhere in between.
+
