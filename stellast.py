@@ -21,7 +21,7 @@ test =        [[['-',' ','O',' ','O',' ','-'],
                 ['X','O','O','X','X',' ',' '],
                 ['X','O','X','X','X','O',' '],
                 ['O','O','O','X','X','X','X'],
-                ['X',' ','O','O','X','X','X'],
+                ['X','O','O','O','X','X','X'],
                 ['X','O','O','O','O','X','X'],
                 ['-','O','O','O','O','X','-']], "X"]
 k=5
@@ -47,9 +47,6 @@ def prepare(initial_state, k, what_side_I_play, opponent_nickname):
 
   numrows=len(initial)
   numcolumns=len(initial[0])
-
-  print(numrows)
-  print(numcolumns)
 
 def introduce():
     return ("Hello, I am Ava, the super genious killing k-in-a-row machine /"
@@ -188,6 +185,7 @@ def staticEval(state):
 
   return result
 
+
 # finds how many X's or O's
 def find_num_side (state,side, num):
   counter=0
@@ -256,4 +254,4 @@ def find_num_side (state,side, num):
   return counter
 
 prepare(test[0], 5, 'X', 'Jacob')
-makeMove(test[0], 'hi')
+#makeMove(test[0], 'hi')
