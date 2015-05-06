@@ -72,17 +72,13 @@ def generate_possible_moves(state):
 
 # need to do timeLimit
 # maybe chose randomly if a lot have the same score? maybe dont calculate anything at the beginning?
-def makeMove(currentState,currentRemark,timetemp=10000):
+def makeMove(currentState,currentRemark,timeLimit=10000):
     # caclulate move #
-    global start
-    global elapsed
-    start = time.time()
-    elapsed = 0
-    global timeLimit
-    timeLimit=timetemp
 
-
-
+    #start = time.time()
+    #elapsed = 0
+    #while elapsed < timeLimit:
+    #    elapsed = time.time() - start
 
     currentState=currentState[0]
     best_move = minimax(currentState, 2, side)
@@ -94,7 +90,7 @@ def makeMove(currentState,currentRemark,timetemp=10000):
 
 
     # remarks for a good static eval
-    if stateval_for_side (newState) > 100:
+    if stateval_for_side (newState) > 1000:
       newRemark = choice (["Haha! I bet you didn't see that coming.",
                                 "Oh you poor human you are going to lose so badly.",
                                 "Such a bad choice human",
@@ -136,13 +132,20 @@ def makeMove(currentState,currentRemark,timetemp=10000):
 
 def minimax(current_state, depth_level, what_side):
     possible_moves = generate_possible_moves(current_state)
-    elapsed = time.time() - start
+    #print("Possible Moves at level " + str(depth_level))
+    #print(possible_moves)
     if find_num_side(current_state,'X',kToWin)>0:
+      #  print('x made it')
+       # print(current_state,staticEval(current_state))
         return [None, float('inf')]
     if find_num_side(current_state,'O',kToWin)>0:
+        #print('o made it')
+        #print(current_state,staticEval(current_state))
         return [None, float('-inf')]
-    if possible_moves == [] or timeLimit - elapsed <= 500 or depth_level == 0:
+    if possible_moves == [] or depth_level == 0:
+        #print(current_state,staticEval(current_state))
         return [None, staticEval(current_state)]
+
     else:
         if what_side == 'X':
             best_move_so_far = [possible_moves[0], float('-inf')]
@@ -151,17 +154,16 @@ def minimax(current_state, depth_level, what_side):
         for move in possible_moves:
             new_state = deepcopy(current_state)
             new_state[move[0]][move[1]] = what_side
+            #print('trying ' + str(move) + ' at level ' + str(depth_level))
             score = minimax(new_state, depth_level - 1, sub(what_side, '', 'XO'))
             if what_side == 'X':
                 if score[1] >= best_move_so_far[1]:
                     best_move_so_far = [move, score[1]]
+                   # print(best_move_so_far)
             else:
                 if score[1] <= best_move_so_far[1]:
                     best_move_so_far = [move, score[1]]
         return best_move_so_far
-
-
-
 
 def stateval_for_side (state):
     if side == 'X':
@@ -178,6 +180,8 @@ def staticEval(state):
     xinarow = find_num_side(state,'X',num)
     oinarow = find_num_side(state,'O',num)
 
+    #print('X ' + str(num) + ' in a row: ' +str(xinarow))
+    #print('O '  + str(num) + ' in a row: ' +str(oinarow))
     if num == kToWin and xinarow > 0:
         return float('inf')
     elif num == kToWin and oinarow > 0:
@@ -202,6 +206,7 @@ def find_num_side (state,side, num):
           if state[row][adjcol] !=side :
             flag=False
         if flag and (num==kToWin or ((col+num+1 > numcolumns or state[row][col+num]!=side) and (col-1<0 or state[row][col-1]!=side))):
+          # print ('passed row ' + str(row) +  ' and col ' + str(col) + ' at end ' + str(col+num))
           counter = counter + 1
 
   # Vertical
@@ -209,10 +214,13 @@ def find_num_side (state,side, num):
     for row in range(numrows-num+1):
       if state[row][col] == side:
         flag = True
+        #print (str(flag)+' trying col ' + str(col) +  ' and row ' + str(row) + ' at end ' + str(row+num))
         for adjrow in range(row+1,row+num):
+         # print(str(col) + ' ' +str(adjrow) + ' ' + str(state[adjrow][col]))
           if state[adjrow][col] != side :
             flag=False
         if flag and (num==kToWin or (((row+num+1 > numrows or state[row+num][col]!=side) and (row-1<0 or state[row-1][col]!=side)))):
+          #print ('passed row ' + str(row) +  ' and col ' + str(col) + ' at end ' + str(col+num))
           counter = counter + 1
 
   # Diagonal
