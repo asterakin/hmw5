@@ -8,9 +8,9 @@ S. Tanimoto, April 29, 2015.
 from __future__ import print_function
 import stellast as player1
 import stellast3 as player2
-#from FiveInARowGameType import K, NAME, INITIAL_STATE
-from TicTacToeGameType import K, NAME, INITIAL_STATE
-TIME_PER_MOVE = 1
+from FiveInARowGameType import K, NAME, INITIAL_STATE
+#from TicTacToeGameType import K, NAME, INITIAL_STATE
+TIME_PER_MOVE = 10000
 
 USE_HTML = True
 
