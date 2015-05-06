@@ -17,13 +17,13 @@ initial =     [[['-',' ',' ',' ',' ',' ','-'],
                 [' ',' ',' ',' ',' ',' ',' '],
                 ['-',' ',' ',' ',' ',' ','-']], "X"]
 
-test =        [[['-',' ',' ',' ',' ',' ','-'],
-                [' ',' ',' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' ',' ',' '],
-                ['-',' ',' ',' ',' ',' ','-']], "X"]
+test =        [[['-',' ','O',' ','O',' ','-'],
+                ['X','O','O','X','X',' ',' '],
+                ['X','O','X','X','X','O',' '],
+                ['O','O','O','X','X','X','X'],
+                ['X',' ','O','O','X','X','X'],
+                ['X','O','O','O','O','X','X'],
+                ['-','O','O','O','O','X','-']], "X"]
 k=5
 
 # find all initial points that could lead to a k in a row horizontally for either side
@@ -85,7 +85,7 @@ def prepare(initial_state, k, what_side_I_play, opponent_nickname):
   kToWin=k
   side =  what_side_I_play
   opponent_nick = opponent_nickname
-  print('I am side ' + side)
+  #print('I am side ' + side)
 
   # get size of board
   numrows=len(initial)
@@ -188,10 +188,10 @@ def minimax(current_state, depth_level, what_side):
     possible_moves = generate_possible_moves(current_state)
     #print(possible_moves)
     if find_num_side(current_state,'X',kToWin)>0:
-        print('x made it')
+        #print('x made it')
         return [None, float('inf')]
     if find_num_side(current_state,'O',kToWin)>0:
-        print('o made it')
+        #print('o made it')
         return [None, float('-inf')]
     if possible_moves == [] or depth_level == 0:
         #print(current_state,staticEval(current_state))
@@ -208,7 +208,7 @@ def minimax(current_state, depth_level, what_side):
             if what_side == 'X':
                 if score[1] > best_move_so_far[1]:
                     best_move_so_far = [move, score[1]]
-                    print(best_move_so_far)
+                    #print(best_move_so_far)
             else:
                 if score[1] < best_move_so_far[1]:
                     best_move_so_far = [move, score[1]]
@@ -307,5 +307,5 @@ def find_num_side (state,side, num):
         counter += 1
   return counter
 
-#prepare(test[0], 3, 'X', 'Jacob')
-#makeMove(test[0], 'hi')
+prepare(test[0], 5, 'X', 'Jacob')
+makeMove(test[0], 'hi')
