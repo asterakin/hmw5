@@ -26,50 +26,6 @@ test =        [[['-',' ',' ',' ',' ',' ','-'],
                 ['-',' ',' ',' ',' ',' ','-']], "X"]
 k=5
 
-# find all initial points that could lead to a k in a row horizontally for either side
-#def findHoriz(intial):
-#  #numrows=len(initial)
-#  #numcolumns=len(intial[0])
-#  goodSquares=[]
-#  if numcolumns >=k:
-#    for row in range(numrows):
-#      for column in range(numcolumns):
-#        colFlag=True
-#        endCol = column+ k-1
-#        if (initial[row][column]!='-') and endCol < numcolumns: # column can be used as starting column
-#          for adjcol in range (column,endCol):
-#            if initial[row][adjcol] == '-':
-#              colflag = False
-#          if colFlag== True:
-#            goodSquares.append((row,column))
-#  return goodSquares
-#
-#def findVert(intial):
-#  #numrows=len(initial)
-#  #numcolumns=len(intial[0])
-#  goodSquares=[]
-#  if numrows >=k:
-#    for col in range(numcolumns):
-#      for row in range(numrows):
-#        rowFlag=True
-#        endRow = row+ k-1
-#        if (initial[row][col]!='-') and endRow < numrows: # column can be used as starting column
-#          for adjrow in range (row+1,endRow+1):
-#            if initial[adjrow][col] == '-':
-#              rowFlag = False
-#          if rowFlag == True:
-#            goodSquares.append((row,col))
-#  return goodSquares
-#
-#def findDiagonal(initial):
-#  numrows=len(initial)
-#  numcolumns=len(intial[0])
-#  goodSquares=[]
-#  for row in range(numrows):
-#    for col in range(numcols):
-#      current_square = initial[row][col]
-#      if (current_square != 0):
-#          pass
          
 def prepare(initial_state, k, what_side_I_play, opponent_nickname):
   global initial
@@ -81,32 +37,19 @@ def prepare(initial_state, k, what_side_I_play, opponent_nickname):
   global numcolumns
 
   forbidden=[]
-  initial=initial_state
+  initial=initial_state[0]
   kToWin=k
   side =  what_side_I_play
   opponent_nick = opponent_nickname
   print('I am side ' + side)
 
   # get size of board
+
   numrows=len(initial)
   numcolumns=len(initial[0])
 
-    # get location of forbidden squares
-  #for row in range(numrows-1):
-  #  for column in range(numcolumns-1):
-  #    if initial_state[row][column] == '-':
-  #      forbidden.append ([[row][column]])
-
-    # do I need to know where handicaps are..? maybe not..
-
-    # find all k that could win
-    # scan board horizontally and find ones that win
-    # scan vertically
-    # scan diagonally
-    #goodSquares = findHoriz(intial)
-    #goodSquares.append (findVert(initial))
-    #goodSquares.append (findDiag1(initial))
-    #goodSquares.append (findDiag2(initial))
+  print(numrows)
+  print(numcolumns)
 
 def introduce():
     return ("Hello, I am Ava, the super genious killing k-in-a-row machine /"
@@ -122,6 +65,7 @@ def generate_possible_moves(state):
         for col in range(numrows):
             if state[row][col] == ' ':
                 possible_moves.append((row, col))
+                #print(possible_moves)
     return possible_moves
 
 
@@ -135,8 +79,9 @@ def makeMove(currentState,currentRemark,timeLimit=10000):
     #while elapsed < timeLimit:
     #    elapsed = time.time() - start
 
+    currentState=currentState[0]
     best_move = minimax(currentState, 2, side)
-    print(best_move)
+    #print(best_move)
 
     # calculate newState
     newState = deepcopy(currentState)
@@ -188,14 +133,17 @@ def minimax(current_state, depth_level, what_side):
     possible_moves = generate_possible_moves(current_state)
     #print(possible_moves)
     if find_num_side(current_state,'X',kToWin)>0:
-        print('x made it')
+        #print('x made it')
+        #print(current_state,staticEval(current_state))
         return [None, float('inf')]
     if find_num_side(current_state,'O',kToWin)>0:
-        print('o made it')
+        #print('o made it')
+        #print(current_state,staticEval(current_state))
         return [None, float('-inf')]
     if possible_moves == [] or depth_level == 0:
         #print(current_state,staticEval(current_state))
         return [None, staticEval(current_state)]
+
     else:
         if what_side == 'X':
             best_move_so_far = [possible_moves[0], float('-inf')]
@@ -206,11 +154,11 @@ def minimax(current_state, depth_level, what_side):
             new_state[move[0]][move[1]] = what_side
             score = minimax(new_state, depth_level - 1, sub(what_side, '', 'XO'))
             if what_side == 'X':
-                if score[1] > best_move_so_far[1]:
+                if score[1] >= best_move_so_far[1]:
                     best_move_so_far = [move, score[1]]
-                    print(best_move_so_far)
+                    #print(best_move_so_far)
             else:
-                if score[1] < best_move_so_far[1]:
+                if score[1] <= best_move_so_far[1]:
                     best_move_so_far = [move, score[1]]
         return best_move_so_far
 
