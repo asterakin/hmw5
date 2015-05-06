@@ -3,12 +3,17 @@ from re import sub
 from random import choice
 import time
 
-initial=[[[' ',' ',' '],
+K_3 = 3
+initial_3=[[[' ',' ',' '],
         [' ',' ',' '],
         [' ',' ',' ']], "X"]
 
+<<<<<<< HEAD
 
 initial = [[['-',' ',' ',' ',' ',' ','-'],
+=======
+initial =     [[['-',' ',' ',' ',' ',' ','-'],
+>>>>>>> origin/master
                 [' ',' ',' ',' ',' ',' ',' '],
                 [' ',' ',' ',' ',' ',' ',' '],
                 [' ',' ',' ',' ',' ',' ',' '],
@@ -17,10 +22,10 @@ initial = [[['-',' ',' ',' ',' ',' ','-'],
                 ['-',' ',' ',' ',' ',' ','-']], "X"]
 
 test =        [[['-',' ',' ',' ',' ',' ','-'],
-                [' ','O',' ',' ',' ',' ',' '],
-                [' ',' ','O',' ',' ',' ',' '],
-                [' ',' ',' ','O',' ',' ',' '],
-                [' ',' ',' ',' ','O',' ',' '],
+                [' ',' ',' ',' ',' ',' ',' '],
+                [' ',' ',' ',' ',' ',' ',' '],
+                [' ',' ',' ',' ',' ',' ',' '],
+                [' ',' ',' ',' ',' ',' ',' '],
                 [' ',' ',' ',' ',' ',' ',' '],
                 ['-',' ',' ',' ',' ',' ','-']], "X"]
 k=5
@@ -89,8 +94,6 @@ def prepare(initial_state, k, what_side_I_play, opponent_nickname):
   # get size of board
   numrows=len(initial)
   numcolumns=len(initial[0])
-  print(numrows)
-  print(numcolumns)
 
     # get location of forbidden squares
   #for row in range(numrows-1):
@@ -136,7 +139,6 @@ def makeMove(currentState,currentRemark,timeLimit=10000):
     #while elapsed < timeLimit:
     #    elapsed = time.time() - start
 
-    currentState=currentState[0]
     best_move = minimax(currentState, 2, side)
     print(best_move)
 
