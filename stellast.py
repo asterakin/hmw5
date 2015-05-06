@@ -91,7 +91,7 @@ def makeMove(currentState,currentRemark,timetemp=10000):
 
 
     # remarks for a good static eval
-    if stateval_for_side (newState) > 100:
+    if stateval_for_side (newState) > pow(2,kToWin-2):
       newRemark = choice (["Haha! I bet you didn't see that coming.",
                                 "Oh you poor human you are going to lose so badly.",
                                 "Such a bad choice human",
