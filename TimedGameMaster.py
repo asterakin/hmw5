@@ -84,8 +84,8 @@ def runGame():
             XsTurn = True
             #print(playerResult)
         moveAndState, currentRemark = playerResult
-        print(who)
-        print(moveAndState)
+        #print(who)
+        #print(moveAndState)
 
         if moveAndState==None:
             FINISHED = True; continue

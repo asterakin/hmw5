@@ -7,7 +7,6 @@ initial=[[[' ',' ',' '],
         [' ',' ',' '],
         [' ',' ',' ']], "X"]
 
-K = 3
 
 initial = [[['-',' ',' ',' ',' ',' ','-'],
                 [' ',' ',' ',' ',' ',' ',' '],
@@ -73,7 +72,7 @@ k=5
          
 def prepare(initial_state, k, what_side_I_play, opponent_nickname):
   global initial
-  global ktowin
+  global kToWin
   global side
   global opponent_nick
   global forbidden
@@ -82,7 +81,7 @@ def prepare(initial_state, k, what_side_I_play, opponent_nickname):
 
   forbidden=[]
   initial=initial_state
-  ktowin=k
+  kToWin=k
   side =  what_side_I_play
   opponent_nick = opponent_nickname
   print('I am side ' + side)
@@ -189,15 +188,15 @@ def makeMove(currentState,currentRemark,timeLimit=10000):
 
 def minimax(current_state, depth_level, what_side):
     possible_moves = generate_possible_moves(current_state)
-    print(possible_moves)
-    if find_num_side(current_state,'X',k)>0:
+    #print(possible_moves)
+    if find_num_side(current_state,'X',kToWin)>0:
         print('x made it')
         return [None, float('inf')]
-    if find_num_side(current_state,'O',k)>0:
+    if find_num_side(current_state,'O',kToWin)>0:
         print('o made it')
         return [None, float('-inf')]
     if possible_moves == [] or depth_level == 0:
-        print(current_state,staticEval(current_state))
+        #print(current_state,staticEval(current_state))
         return [None, staticEval(current_state)]
     else:
         if what_side == 'X':
@@ -228,15 +227,15 @@ def staticEval(state):
   # calculate how good this state is
   # high value is good for X, low value is good for O
   result = 0
-  for num in range(2,k+1):
+  for num in range(2,kToWin+1):
     xinarow = find_num_side(state,'X',num)
     oinarow = find_num_side(state,'O',num)
 
     #print('X ' + str(num) + ' in a row: ' +str(xinarow))
     #print('O '  + str(num) + ' in a row: ' +str(oinarow))
-    if num == k and xinarow > 0:
+    if num == kToWin and xinarow > 0:
         return float('inf')
-    elif num == k and oinarow > 0:
+    elif num == kToWin and oinarow > 0:
         return float('-inf')
     else:
         result += pow(2, num) * xinarow - pow(2, num) * oinarow
