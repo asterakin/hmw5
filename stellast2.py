@@ -3,12 +3,7 @@ from re import sub
 from random import choice
 import time
 
-K_3 = 3
-initial_3=[[[' ',' ',' '],
-        [' ',' ',' '],
-        [' ',' ',' ']], "X"]
-
-initial =     [[['-',' ',' ',' ',' ',' ','-'],
+initial = [[['-',' ',' ',' ',' ',' ','-'],
                 [' ',' ',' ',' ',' ',' ',' '],
                 [' ',' ',' ',' ',' ',' ',' '],
                 [' ',' ',' ',' ',' ',' ',' '],
@@ -16,7 +11,7 @@ initial =     [[['-',' ',' ',' ',' ',' ','-'],
                 [' ',' ',' ',' ',' ',' ',' '],
                 ['-',' ',' ',' ',' ',' ','-']], "X"]
 
-test =        [[['-',' ',' ',' ',' ',' ','-'],
+test = [[['-',' ',' ',' ',' ',' ','-'],
                 [' ',' ',' ',' ',' ',' ',' '],
                 [' ',' ',' ',' ',' ',' ',' '],
                 [' ',' ',' ',' ',' ',' ',' '],
@@ -80,7 +75,7 @@ def prepare(initial_state, k, what_side_I_play, opponent_nickname):
   global numcolumns
 
   forbidden=[]
-  initial=initial_state
+  initial=initial_state[0]
   ktowin=k
   side =  what_side_I_play
   opponent_nick = opponent_nickname
@@ -113,7 +108,7 @@ def introduce():
             "Stella Stylianidou (stellast@uw.edu) and Phil Synder(phil0@uw.edu)")
 
 def nickname():
-    return "Ava"
+    return "EVIL Ava"
 
 def generate_possible_moves(state):
     possible_moves = []
@@ -127,13 +122,14 @@ def generate_possible_moves(state):
 # need to do timeLimit
 # maybe chose randomly if a lot have the same score? maybe dont calculate anything at the beginning?
 def makeMove(currentState,currentRemark,timeLimit=10000):
-    # caclulate move #
+    # caclulate move
 
     #start = time.time()
     #elapsed = 0
     #while elapsed < timeLimit:
     #    elapsed = time.time() - start
 
+    currentState=currentState[0]
     best_move = minimax(currentState, 2, side)
     print(best_move)
 
@@ -143,59 +139,16 @@ def makeMove(currentState,currentRemark,timeLimit=10000):
 
 
     # remarks for a good static eval
-    if stateval_for_side (newState) > 1000:
-      newRemark = choice (["Haha! I bet you didn't see that coming.",
-                                "Oh you poor human you are going to lose so badly.",
-                                "Such a bad choice human",
-                                "I am so looking forward to your end",
-                                side + " for the win!",
-                                "Such an awesome move on my behalf",
-                                "I may be rocking this game.",
-                                "You have no idea what's coming human"
-                                ])
-    elif stateval_for_side (newState) < 0: # remarks for bad static eval
-      newRemark = choice (["Let me think about this.",
-                                "Hmm.. I am smarter than you.. I don't understand.",
-                                "Okay, I guess that's a valid move.",
-                                "I can still kill you. I am smart.",
-                                "I can't believe you just did that.",
-                                "This doesn't look great."
-                                "I will get back to you with a manuever you won't see."
-                                ])
-    else: # remarks for other states
-      newRemark = choice (["So what are you doing next?",
-                                "Wasn't my move the best move ever?",
-                                "I am so good at this game.",
-                                "Such an awesome move on my behalf",
-                                "Your turn silly human.",
-                                "This is so easy.",
-                                "Oh how cute. Aren't you bad at this game?"
-                                ])
+    newRemark ='HAHAHAHAH'
 
-    #print ('I am in side ' + side)
-
-
-    if side=='X':
-        otherside='O'
-    else:
-        otherside='X'
-
-
-    return([[best_move[0], [newState,otherside]], newRemark])
+    print ('I am in side ' + side)
+    return([[best_move[0], [newState,side]], newRemark])
 
 def minimax(current_state, depth_level, what_side):
-    possible_moves = generate_possible_moves(current_state)
-    print(possible_moves)
-    if find_num_side(current_state,'X',k)>0:
-        print('x made it')
-        return [None, float('inf')]
-    if find_num_side(current_state,'O',k)>0:
-        print('o made it')
-        return [None, float('-inf')]
-    if possible_moves == [] or depth_level == 0:
-        print(current_state,staticEval(current_state))
+    if depth_level == 0:
         return [None, staticEval(current_state)]
     else:
+        possible_moves = generate_possible_moves(current_state)
         if what_side == 'X':
             best_move_so_far = [possible_moves[0], float('-inf')]
         else:
@@ -206,10 +159,11 @@ def minimax(current_state, depth_level, what_side):
             score = minimax(new_state, depth_level - 1, sub(what_side, '', 'XO'))
             if what_side == 'X':
                 if score[1] > best_move_so_far[1]:
+                    print(move,score[1])
                     best_move_so_far = [move, score[1]]
-                    print(best_move_so_far)
             else:
-                if score[1] < best_move_so_far[1]:
+                if score < best_move_so_far:
+                    print(move,score[1])
                     best_move_so_far = [move, score[1]]
         return best_move_so_far
 
@@ -227,23 +181,23 @@ def staticEval(state):
   for num in range(2,k+1):
     xinarow = find_num_side(state,'X',num)
     oinarow = find_num_side(state,'O',num)
-
     #print('X ' + str(num) + ' in a row: ' +str(xinarow))
     #print('O '  + str(num) + ' in a row: ' +str(oinarow))
-    if num == k and xinarow > 0:
-        return float('inf')
-    elif num == k and oinarow > 0:
-        return float('-inf')
+    if num==k:
+        if xinarow>0:
+            result = float('inf')
+        elif oinarow>0:
+            result = float('-inf')
     else:
-        result += pow(2, num) * xinarow - pow(2, num) * oinarow
-
+        result += pow(2.71,num * xinarow) - pow(2.71,num*oinarow)
+  # calculate
   return result
 
 # finds how many X's or O's
 def find_num_side (state,side, num):
   counter=0
   numrows=len(state)
-  numcolumns=len(state)
+  numcolumns=len(state[0])
 
   # Horizontal
   for row in range(numrows):
@@ -306,5 +260,5 @@ def find_num_side (state,side, num):
         counter += 1
   return counter
 
-#prepare(test[0], 3, 'X', 'Jacob')
-#makeMove(test[0], 'hi')
+#prepare(initial, 3, 'X', 'Jacob')
+#makeMove(initial, 'hi')
