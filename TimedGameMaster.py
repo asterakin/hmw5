@@ -10,7 +10,7 @@ import stellast as player1
 import stellast3 as player2
 from FiveInARowGameType import K, NAME, INITIAL_STATE
 #from TicTacToeGameType import K, NAME, INITIAL_STATE
-TIME_PER_MOVE = 10000
+TIME_PER_MOVE = 1000
 
 USE_HTML = True
 
