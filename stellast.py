@@ -3,28 +3,6 @@ from re import sub
 from random import choice
 import time
 
-K_3 = 3
-initial_3=[[[' ',' ',' '],
-        [' ',' ',' '],
-        [' ',' ',' ']], "X"]
-
-
-initial =     [[['-',' ',' ',' ',' ',' ','-'],
-                [' ',' ',' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' ',' ',' '],
-                ['-',' ',' ',' ',' ',' ','-']], "X"]
-
-test =        [[['-',' ','O',' ','O',' ','-'],
-                ['X','O','O','X','X',' ',' '],
-                ['X','O','X','X','X','O',' '],
-                ['O','O','O','X','X','X','X'],
-                ['X','O','O','O','X','X','X'],
-                ['X','O','O','O','O','X','X'],
-                ['-','O','O','O','O','X','-']], "X"]
-
          
 def prepare(initial_state, k, what_side_I_play, opponent_nickname):
   global initial
@@ -41,10 +19,6 @@ def prepare(initial_state, k, what_side_I_play, opponent_nickname):
   side =  what_side_I_play
   opponent_nick = opponent_nickname
 
-  print(str(kToWin) + ' this is how many k i need')
-  #print('I am side ' + side)
-
-  # get size of board
 
   numrows=len(initial)
   numcolumns=len(initial[0])
@@ -63,14 +37,10 @@ def generate_possible_moves(state):
         for col in range(numrows):
             if state[row][col] == ' ':
                 possible_moves.append((row, col))
-                #print(possible_moves)
+
     return possible_moves
 
-
-# need to do timeLimit
-# maybe chose randomly if a lot have the same score? maybe dont calculate anything at the beginning?
 def makeMove(currentState,currentRemark,timetemp=10000):
-    # caclulate move #
     global start
     global elapsed
     start = time.time()
@@ -83,9 +53,7 @@ def makeMove(currentState,currentRemark,timetemp=10000):
 
     currentState=currentState[0]
     best_move = minimax(currentState, 2, side)
-    print(best_move)
 
-    # calculate newState
     newState = deepcopy(currentState)
     newState[best_move[0][0]][best_move[0][1]] = side
 
@@ -120,15 +88,12 @@ def makeMove(currentState,currentRemark,timetemp=10000):
                                 "Oh how cute. Aren't you bad at this game?"
                                 ])
 
-    #print ('I am in side ' + side)
-
 
     if side=='X':
         otherside='O'
     else:
         otherside='X'
-
-
+        
     return([[best_move[0], [newState,otherside]], newRemark])
 
 def minimax(current_state, depth_level, what_side):
