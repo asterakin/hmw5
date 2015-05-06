@@ -138,8 +138,13 @@ def minimax(current_state, depth_level, what_side):
         return [None, float('inf')]
     if find_num_side(current_state,'O',kToWin)>0:
         return [None, float('-inf')]
-    if possible_moves == [] or timeLimit - elapsed <= 500 or depth_level == 0:
+    if possible_moves == [] or depth_level == 0:
         return [None, staticEval(current_state)]
+    if timeLimit - elapsed <= 0.5: 
+        if what_side == 'X':
+            return [None, float('-inf')]
+        if what_side == 'O':
+            return [None, float('inf')]
     else:
         if what_side == 'X':
             best_move_so_far = [possible_moves[0], float('-inf')]
