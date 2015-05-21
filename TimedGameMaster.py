@@ -6,8 +6,8 @@ S. Tanimoto, April 29, 2015.
 
 # Specify details of a match here:
 from __future__ import print_function
-import stellastphil0KinArow as player1
-import stellast3 as player2
+import stellastKInARow as player1
+import chen2016KInARow as player2
 from FiveInARowGameType import K, NAME, INITIAL_STATE
 #from TicTacToeGameType import K, NAME, INITIAL_STATE
 TIME_PER_MOVE = 10
